@@ -17,7 +17,7 @@ function Layout({ children, title }) {
 
       <Navbar />
 
-      <main>{children}</main>
+      <main className="px-[20px]">{children}</main>
     </>
   );
 }
