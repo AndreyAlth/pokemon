@@ -1,27 +1,30 @@
-import { Button } from "@nextui-org/react";
+import { pokeApi } from "../api";
 import Layout from "../components/layouts/Layout";
 
-export default function Home(props) {
-  console.log(props)
+export default function Home({ pokemons }) {
+  console.log(pokemons);
   return (
-    <Layout title='Listado de Pokemons'>
+    <Layout title="Listado de Pokemons">
       <ul>
-        <li>Pokemon</li>
-        <li>Pokemon</li>
-        <li>Pokemon</li>
-        <li>Pokemon</li>
-        <li>Pokemon</li>
-        <li>Pokemon</li>
-        <li>Pokemon</li>
-        <li>Pokemon</li>
+        
+        {pokemons.map((pokemon) => {
+          return (
+            <li key={pokemon.id}>{pokemon.id} {pokemon.name}</li>
+          )
+        })}
       </ul>
     </Layout>
   );
 }
 
 export async function getStaticProps(context) {
-  console.log('hola mundo')
+  const { data } = await pokeApi.get("/pokemon?limit=151");
+  const pokemonsComplete = data.results.map((pokemon, index) => {
+    return { ...pokemon, id: index + 1, url: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${index + 1}.svg`}
+  });
   return {
-    props: {}, // will be passed to the page component as props
-  }
+    props: {
+      pokemons: pokemonsComplete,
+    },
+  };
 }
