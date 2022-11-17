@@ -20,20 +20,24 @@ export default PokemonPage;
 
 export async function getStaticPaths(context) {
   return {
-    paths:[
+    paths: [
       {
         params: {
-          id: '1'
+          id: "1",
         },
+      },
+      {
         params: {
-          id: '2'
+          id: "2",
         },
+      },
+      {
         params: {
-          id: '3'
-        }
-      }
+          id: "3",
+        },
+      },
     ],
-    fallback: false
+    fallback: false,
   };
 }
 
@@ -42,7 +46,7 @@ export async function getStaticProps(context) {
   return {
     props: {
       id: 1,
-      name: 'Bulbasur'
+      name: "Bulbasur",
     },
   };
 }
