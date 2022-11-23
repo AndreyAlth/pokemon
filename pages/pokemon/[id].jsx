@@ -2,7 +2,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import Layout from "../../components/layouts/Layout";
 import pokeApi from "../../api/pokeApi";
-import { Button, Card, Grid, Text } from "@nextui-org/react";
+import { Button, Card, Grid, Text, Container, Image } from "@nextui-org/react";
 
 function PokemonPage({ pokemon }) {
   const router = useRouter();
@@ -22,7 +22,6 @@ function PokemonPage({ pokemon }) {
                 width="100%"
                 height={200}
               />
-              {console.log(pokemon)}
             </Card.Body>
           </Card>
         </Grid>
@@ -35,8 +34,39 @@ function PokemonPage({ pokemon }) {
               <Text h1 transform="capitalize">
                 {pokemon.name}
               </Text>
-              <Button color="gradient" ghost>hi</Button>
+              <Button color="gradient" ghost>
+                Guardar en favoritos
+              </Button>
             </Card.Header>
+            <Card.Body>
+              <Text size={30}>Sprites: </Text>
+              <Container display="flex" direction="row">
+                <Image
+                  src={pokemon.sprites.front_default}
+                  alt={pokemon.name}
+                  width={100}
+                  height={100}
+                />
+                <Image
+                  src={pokemon.sprites.back_default}
+                  alt={pokemon.name}
+                  width={100}
+                  height={100}
+                />
+                <Image
+                  src={pokemon.sprites.front_shiny}
+                  alt={pokemon.name}
+                  width={100}
+                  height={100}
+                />
+                <Image
+                  src={pokemon.sprites.back_shiny}
+                  alt={pokemon.name}
+                  width={100}
+                  height={100}
+                />
+              </Container>
+            </Card.Body>
           </Card>
         </Grid>
       </Grid.Container>
@@ -48,7 +78,6 @@ export default PokemonPage;
 
 export async function getStaticPaths(context) {
   const pokemons151 = [...Array(151)].map((value, index) => `${index + 1}`);
-  // console.log(pokemons151)
   return {
     paths: pokemons151.map((id) => ({
       params: { id },
@@ -60,7 +89,6 @@ export async function getStaticPaths(context) {
 export async function getStaticProps({ params }) {
   const { id } = params;
   const { data } = await pokeApi.get(`/pokemon/${id}`);
-  console.log(data);
   return {
     props: {
       pokemon: data,
